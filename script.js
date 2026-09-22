@@ -53,8 +53,8 @@ document.querySelector('#registration-form').addEventListener('submit', (event) 
   const studentWhatsAppLink = `https://wa.me/${studentWhatsApp}?text=${encodeURIComponent(studentMessage)}`;
   const subject = encodeURIComponent('CreateX Tech waitlist confirmation');
   const body = encodeURIComponent(`Hi ${name || 'there'},\n\nThanks for joining the CreateX Tech waitlist for ${course}. We have received your registration and will contact you with the next cohort details.\n\nCreateX Tech`);
-  window.open(adminWhatsAppLink, '_blank', 'noopener');
-  success.innerHTML = `Thanks, ${name || 'there'}! Your ${course} registration is ready. <a href="${adminWhatsAppLink}" target="_blank" rel="noopener">Send registration to CreateX Tech WhatsApp</a> <a href="${studentWhatsAppLink}" target="_blank" rel="noopener">Open your WhatsApp confirmation</a> <a href="mailto:${email}?subject=${subject}&body=${body}">Open email confirmation</a>`;
+  window.open(studentWhatsAppLink, '_blank', 'noopener');
+  success.innerHTML = `Thanks, ${name || 'there'}! Your ${course} registration is ready. <a href="${studentWhatsAppLink}" target="_blank" rel="noopener">Send congratulations to the student's WhatsApp</a> <a href="${adminWhatsAppLink}" target="_blank" rel="noopener">Send registration details to CreateX Tech</a> <a href="mailto:${email}?subject=${subject}&body=${body}">Open email confirmation</a>`;
   form.reset();
 });
 
