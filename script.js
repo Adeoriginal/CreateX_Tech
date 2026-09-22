@@ -44,12 +44,12 @@ document.querySelector('#registration-form').addEventListener('submit', (event) 
 	const course = form.elements.course.value;
 	const experience = form.elements.experience.value;
 	const success = form.querySelector('.form-success');
-	const createXTechWhatsApp = '2349049425932';
+	const createXTechWhatsApp = '09049425932'.replace(/^0/, '234');
 	const registrationMessage = `New CreateX Tech webinar waitlist registration\n\nFull name: ${fullName}\nEmail: ${email}\nWhatsApp: ${whatsapp}\nHome address: ${address}\nCourse: ${course}\nExperience: ${experience}`;
 	const whatsappLink = `https://wa.me/${createXTechWhatsApp}?text=${encodeURIComponent(registrationMessage)}`;
 
 	window.open(whatsappLink, '_blank', 'noopener');
-	success.innerHTML = `Your registration is ready. <a href="${whatsappLink}" target="_blank" rel="noopener">Send registration on WhatsApp</a>`;
+	success.innerHTML = `Your registration is ready. <a href="${whatsappLink}" target="_blank" rel="noopener">Send form to 09049425932 on WhatsApp</a>`;
 	form.reset();
 });
 
