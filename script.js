@@ -44,6 +44,18 @@ document.querySelector('#registration-form').addEventListener('submit', (event) 
 	const course = form.elements.course.value;
 	const experience = form.elements.experience.value;
 	const success = form.querySelector('.form-success');
+	const registrations = JSON.parse(localStorage.getItem('createXRegistrations') || '[]');
+	registrations.push({
+		id: Date.now(),
+		fullName,
+		email,
+		whatsapp,
+		address,
+		course,
+		experience,
+		registeredAt: new Date().toISOString()
+	});
+	localStorage.setItem('createXRegistrations', JSON.stringify(registrations));
 	const createXTechWhatsApp = '09049425932'.replace(/^0/, '234');
 	const registrationMessage = `New CreateX Tech webinar waitlist registration\n\nFull name: ${fullName}\nEmail: ${email}\nWhatsApp: ${whatsapp}\nHome address: ${address}\nCourse: ${course}\nExperience: ${experience}`;
 	const whatsappLink = `https://wa.me/${createXTechWhatsApp}?text=${encodeURIComponent(registrationMessage)}`;
