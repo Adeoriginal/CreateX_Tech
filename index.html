@@ -59,6 +59,97 @@
 
     <section id="register" class="register-section section-shell section-block"><div class="register-heading"><p class="eyebrow">Your next move</p><h2>Ready to<br><span>start?</span></h2><p>Tell us a little about yourself and we will send the next cohort details to your inbox.</p></div><form id="registration-form" class="registration-form"><div class="form-row"><label>Full name<input type="text" name="fullname" placeholder="e.g. Ada Lovelace" required></label><label>Email address<input type="email" name="email" placeholder="you@email.com" required></label></div><div class="form-row"><label>WhatsApp number<input type="tel" name="whatsapp" placeholder="e.g. 08012345678" inputmode="tel" required></label><label>Home address<input type="text" name="address" placeholder="Where are you joining from?" required></label></div><div class="form-row"><label>Course interested in<select name="course" required><option value="" disabled selected>Choose a course</option><option>Graphic Design</option><option>Forex Trading</option><option>Coding (Frontend)</option><option>Coding (Backend)</option></select></label><label>Experience level<select name="experience" required><option value="" disabled selected>Choose your level</option><option>Beginner</option><option>Intermediate</option><option>Professional</option></select></label></div><button class="button button-dark" type="submit">Complete registration <span>↗</span></button><p class="form-note">Your details are used to confirm your place and send CreateX Tech updates on WhatsApp.</p><div class="form-success" role="status" aria-live="polite"></div></form></section>
   </main>
+
+  <button id="admin-access" class="admin-access-trigger" type="button" aria-label="Admin access">Admin</button>
+
+  <section class="admin-panel" id="login-panel" aria-labelledby="admin-login-title" hidden>
+    <div class="admin-panel-inner">
+      <p class="eyebrow">Private area</p>
+      <h2 id="admin-login-title">Owner <span>login.</span></h2>
+      <p>Enter the admin password to view student registrations.</p>
+      <form id="login-form">
+        <label for="admin-password">Admin password</label>
+        <div class="password-row">
+          <input id="admin-password" type="password" autocomplete="current-password" required>
+          <button class="button button-dark" type="submit">Sign in <span>↗</span></button>
+        </div>
+        <p class="login-error" id="login-error" role="alert" hidden>That password is not correct.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="admin-dashboard-panel" id="dashboard" hidden>
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Registration records</p>
+        <h2>Student <span>admin panel.</span></h2>
+      </div>
+      <button class="button button-dark" id="export-button" type="button">Export CSV <span>↓</span></button>
+    </div>
+
+    <section class="stats-grid" aria-label="Registration summary">
+      <article><span>Total students</span><strong id="total-count">0</strong></article>
+      <article><span>Latest registration</span><strong id="latest-date">—</strong></article>
+      <article><span>Most popular course</span><strong id="popular-course">—</strong></article>
+    </section>
+
+    <section class="records-section">
+      <div class="records-toolbar">
+        <label class="search-field"><span>Search registrations</span><input id="search-input" type="search" placeholder="Search name, email, or course"></label>
+        <label class="filter-field"><span>Course</span><select id="course-filter"><option value="all">All courses</option><option>Graphic Design</option><option>Forex Trading</option><option>Coding (Frontend)</option><option>Coding (Backend)</option></select></label>
+        <button class="clear-button" id="clear-button" type="button">Clear all</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Contact</th>
+              <th>Course</th>
+              <th>Level</th>
+              <th>Address</th>
+              <th>Registered</th>
+              <th><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="records-body"></tbody>
+        </table>
+        <p class="empty-state" id="empty-state">No registrations found yet.</p>
+      </div>
+    </section>
+
+    <p class="storage-note">Records are stored in this browser only. Connect a server database before using this panel across devices or for production data.</p>
+  </section>
+
+  <section id="contact" class="section-shell contact-section">
+    <div class="contact-heading">
+      <p class="eyebrow">Contact us</p>
+      <h2>We’re here to help you move forward.</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Social media</h3>
+        <ul class="contact-list">
+          <li><a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://instagram.com/createx_tech" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://x.com/CreateX_Tech" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://tiktok.com/@CreateX_Tech" target="_blank" rel="noopener">TikTok @CreateX_Tech</a></li>
+        </ul>
+      </div>
+      <div class="contact-card">
+        <h3>Call / WhatsApp</h3>
+        <ul class="contact-list">
+          <li><a href="tel:+2349049425932">09049425932</a></li>
+          <li><a href="tel:+2348061964805">08061964805</a></li>
+          <li><a href="tel:+2349018297659">09018297659</a></li>
+          <li><a href="tel:+2347081404041">07081404041</a></li>
+          <li><a href="tel:+2349041447006">09041447006</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <footer class="site-footer section-shell"><a class="brand" href="#home"><span class="brand-mark"><img src="logo.jpg.jpeg" alt="CreateX Tech logo"><span>CX</span></span><span>CreateX <em>Tech</em></span></a><p>Learn. Build. Launch.</p><p>© 2026 CreateX Tech</p></footer>
   <script src="script.js"></script>
 </body>
