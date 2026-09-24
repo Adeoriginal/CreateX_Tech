@@ -248,6 +248,13 @@ document.querySelectorAll('.mentor-card:not(.mentor-featured)').forEach((card, i
 	details.querySelector('p:last-child').textContent = mentor.bio;
 });
 
+document.querySelectorAll('.mentor-details').forEach((details) => {
+	const badge = document.createElement('div');
+	badge.className = 'mentor-verification';
+	badge.innerHTML = '<img src="images/trusted-certified.png" alt=""> <span>Verified &amp; certified mentor</span>';
+	details.append(badge);
+});
+
 const mentorDialog = document.createElement('dialog');
 mentorDialog.className = 'mentor-dialog';
 mentorDialog.innerHTML = '<div class="mentor-dialog-content"><button class="mentor-dialog-close" type="button" aria-label="Close biography">×</button><p class="mentor-role"></p><h2></h2><p class="mentor-dialog-bio"></p></div>';
