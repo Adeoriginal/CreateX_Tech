@@ -130,51 +130,65 @@ const slideCount = document.querySelectorAll('.slide').length;
 let currentSlide = 0;
 
 function showSlide(index) {
+	if (!slides || !slideCurrent || !slideCount) return;
 	currentSlide = (index + slideCount) % slideCount;
 	slides.style.transform = `translateX(-${currentSlide * 100}%)`;
 	slideCurrent.textContent = String(currentSlide + 1).padStart(2, '0');
 }
 
-document.querySelector('.next').addEventListener('click', () => showSlide(currentSlide + 1));
-document.querySelector('.previous').addEventListener('click', () => showSlide(currentSlide - 1));
+const nextButton = document.querySelector('.next');
+const previousButton = document.querySelector('.previous');
 
-let slideshowTimer = setInterval(() => showSlide(currentSlide + 1), 6000);
+if (nextButton) nextButton.addEventListener('click', () => showSlide(currentSlide + 1));
+if (previousButton) previousButton.addEventListener('click', () => showSlide(currentSlide - 1));
+
+let slideshowTimer = null;
 const sliderWindow = document.querySelector('.slider-window');
-sliderWindow.addEventListener('mouseenter', () => clearInterval(slideshowTimer));
-sliderWindow.addEventListener('mouseleave', () => {
+
+if (slides && slideCurrent && slideCount) {
 	slideshowTimer = setInterval(() => showSlide(currentSlide + 1), 6000);
-});
+	if (sliderWindow) {
+		sliderWindow.addEventListener('mouseenter', () => clearInterval(slideshowTimer));
+		sliderWindow.addEventListener('mouseleave', () => {
+			slideshowTimer = setInterval(() => showSlide(currentSlide + 1), 6000);
+		});
+	}
+}
 
-document.querySelector('#registration-form').addEventListener('submit', (event) => {
-	event.preventDefault();
-	const form = event.currentTarget;
-	const fullName = form.elements.fullname.value.trim();
-	const email = form.elements.email.value.trim();
-	const whatsapp = form.elements.whatsapp.value.trim();
-	const address = form.elements.address.value.trim();
-	const course = form.elements.course.value;
-	const experience = form.elements.experience.value;
-	const success = form.querySelector('.form-success');
-	const registrations = JSON.parse(localStorage.getItem('createXRegistrations') || '[]');
-	registrations.push({
-		id: Date.now(),
-		fullName,
-		email,
-		whatsapp,
-		address,
-		course,
-		experience,
-		registeredAt: new Date().toISOString()
+const registrationForm = document.querySelector('#registration-form');
+
+if (registrationForm) {
+	registrationForm.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const fullName = form.elements.fullname.value.trim();
+		const email = form.elements.email.value.trim();
+		const whatsapp = form.elements.whatsapp.value.trim();
+		const address = form.elements.address.value.trim();
+		const course = form.elements.course.value;
+		const experience = form.elements.experience.value;
+		const success = form.querySelector('.form-success');
+		const registrations = JSON.parse(localStorage.getItem('createXRegistrations') || '[]');
+		registrations.push({
+			id: Date.now(),
+			fullName,
+			email,
+			whatsapp,
+			address,
+			course,
+			experience,
+			registeredAt: new Date().toISOString()
+		});
+		localStorage.setItem('createXRegistrations', JSON.stringify(registrations));
+		const createXTechWhatsApp = '09049425932'.replace(/^0/, '234');
+		const registrationMessage = `New CreateX Tech webinar waitlist registration\n\nFull name: ${fullName}\nEmail: ${email}\nWhatsApp: ${whatsapp}\nHome address: ${address}\nCourse: ${course}\nExperience: ${experience}`;
+		const whatsappLink = `https://wa.me/${createXTechWhatsApp}?text=${encodeURIComponent(registrationMessage)}`;
+
+		window.open(whatsappLink, '_blank', 'noopener');
+		success.innerHTML = `Your registration is ready. <a href="${whatsappLink}" target="_blank" rel="noopener">Send form to 09049425932 on WhatsApp</a>`;
+		form.reset();
 	});
-	localStorage.setItem('createXRegistrations', JSON.stringify(registrations));
-	const createXTechWhatsApp = '09049425932'.replace(/^0/, '234');
-	const registrationMessage = `New CreateX Tech webinar waitlist registration\n\nFull name: ${fullName}\nEmail: ${email}\nWhatsApp: ${whatsapp}\nHome address: ${address}\nCourse: ${course}\nExperience: ${experience}`;
-	const whatsappLink = `https://wa.me/${createXTechWhatsApp}?text=${encodeURIComponent(registrationMessage)}`;
-
-	window.open(whatsappLink, '_blank', 'noopener');
-	success.innerHTML = `Your registration is ready. <a href="${whatsappLink}" target="_blank" rel="noopener">Send form to 09049425932 on WhatsApp</a>`;
-	form.reset();
-});
+}
 
 const sections = document.querySelectorAll('main section[id]');
 const navLinks = document.querySelectorAll('.site-nav a:not(.nav-cta)');
