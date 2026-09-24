@@ -191,32 +191,38 @@ const mentorProfiles = [
 	{
 		name: 'Mr. Adesanwo Ambrose Oreoluwa',
 		role: 'Coding Tutor · Frontend / Backend',
-		bio: 'A frontend and backend expert with lots of successful projects.',
+		bio: 'A frontend and backend developer who turns complex ideas into clear, useful digital products. He enjoys helping beginners build strong foundations and guiding learners through projects they can confidently show.',
 		initials: 'AO',
-		image: 'images/mentors/mentor-two.jpg'
+		image: ''
 	},
 	{
 		name: 'Mr. Sanni Arafat Mohammed',
 		role: 'Forex Trading / Coding Tutor',
-		bio: 'A frontend and backend expert with lots of successful projects and experience working in known enterprises. He also holds a certificate in crypto trading.',
+		bio: 'A practical technology tutor with experience across frontend development, backend systems, and digital assets. He teaches learners to think clearly, manage risk, and turn technical knowledge into useful projects.',
 		initials: 'SA',
-		image: 'images/mentors/mentor-three.jpg'
+		image: ''
 	},
 	{
 		name: 'Mr. Musbaudeen Fathiu Bodunrin',
 		role: 'Forex Trading / Frontend Tutor',
 		bio: 'A frontend expert with successful projects who also holds a certificate in crypto trading.',
 		initials: 'MF',
-		image: 'images/mentors/mentor-four.jpg'
+		image: 'images/mentors/bodunrin.jpeg'
 	},
 	{
 		name: 'Mr. Hassan Ridwan (Maxam)',
 		role: 'Professional Graphic Designer',
 		bio: 'A professional graphic designer, print manager, creative expert, and colour mix expert with a successful record in the graphic industry.',
 		initials: 'HR',
-		image: 'images/mentors/mentor-five.jpg'
+		image: 'images/mentors/maxam.jpeg'
 	}
 ];
+
+const featuredImage = document.querySelector('.mentor-featured .mentor-photo img');
+if (featuredImage) {
+	featuredImage.src = 'images/mentors/mohammed jamiu.jpeg';
+	featuredImage.style.display = '';
+}
 
 document.querySelectorAll('.mentor-card:not(.mentor-featured)').forEach((card, index) => {
 	const mentor = mentorProfiles[index];
@@ -224,11 +230,50 @@ document.querySelectorAll('.mentor-card:not(.mentor-featured)').forEach((card, i
 	const photo = card.querySelector('.mentor-photo');
 	const image = card.querySelector('img');
 	const details = card.querySelector('.mentor-details');
-	image.src = mentor.image;
-	image.alt = `Photo of ${mentor.name}`;
-	image.addEventListener('error', () => { image.style.display = 'none'; });
+	if (mentor.image) {
+		image.src = mentor.image;
+		image.style.display = '';
+		photo.classList.remove('mentor-photo--placeholder');
+		photo.removeAttribute('data-placeholder');
+		image.alt = `Photo of ${mentor.name}`;
+		image.addEventListener('error', () => { image.style.display = 'none'; });
+	} else {
+		image.style.display = 'none';
+		photo.classList.add('mentor-photo--placeholder');
+		photo.dataset.placeholder = 'Image coming soon';
+	}
 	photo.querySelector('span').textContent = mentor.initials;
 	details.querySelector('.mentor-role').textContent = mentor.role;
 	details.querySelector('h3').textContent = mentor.name;
 	details.querySelector('p:last-child').textContent = mentor.bio;
+});
+
+const mentorDialog = document.createElement('dialog');
+mentorDialog.className = 'mentor-dialog';
+mentorDialog.innerHTML = '<div class="mentor-dialog-content"><button class="mentor-dialog-close" type="button" aria-label="Close biography">×</button><p class="mentor-role"></p><h2></h2><p class="mentor-dialog-bio"></p></div>';
+document.body.append(mentorDialog);
+
+const closeMentorDialog = () => mentorDialog.close();
+mentorDialog.querySelector('.mentor-dialog-close').addEventListener('click', closeMentorDialog);
+mentorDialog.addEventListener('click', (event) => {
+	if (event.target === mentorDialog) closeMentorDialog();
+});
+
+document.querySelectorAll('.mentor-card').forEach((card) => {
+	card.tabIndex = 0;
+	card.setAttribute('role', 'button');
+	card.setAttribute('aria-haspopup', 'dialog');
+	const openBiography = () => {
+		mentorDialog.querySelector('.mentor-role').textContent = card.querySelector('.mentor-role').textContent;
+		mentorDialog.querySelector('h2').textContent = card.querySelector('h3').textContent;
+		mentorDialog.querySelector('.mentor-dialog-bio').textContent = card.querySelector('.mentor-details>p:last-child').textContent;
+		mentorDialog.showModal();
+	};
+	card.addEventListener('click', openBiography);
+	card.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			openBiography();
+		}
+	});
 });
