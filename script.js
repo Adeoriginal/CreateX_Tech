@@ -207,14 +207,14 @@ const mentorProfiles = [
 		role: 'Coding Tutor · Frontend / Backend',
 		bio: 'A frontend and backend developer who turns complex ideas into clear, useful digital products. He enjoys helping beginners build strong foundations and guiding learners through projects they can confidently show.',
 		initials: 'AO',
-		image: ''
+		image: 'images/mentors/adesanwo ambrose.png'
 	},
 	{
 		name: 'Mr. Sanni Arafat Mohammed',
 		role: 'Forex Trading / Coding Tutor',
 		bio: 'A practical technology tutor with experience across frontend development, backend systems, and digital assets. He teaches learners to think clearly, manage risk, and turn technical knowledge into useful projects.',
 		initials: 'SA',
-		image: ''
+		image: 'images/mentors/sanni arafat.png'
 	},
 	{
 		name: 'Mr. Musbaudeen Fathiu Bodunrin',
