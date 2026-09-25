@@ -221,14 +221,14 @@ const mentorProfiles = [
 		role: 'Forex Trading / Frontend Tutor',
 		bio: 'A frontend expert with successful projects who also holds a certificate in crypto trading.',
 		initials: 'MF',
-		image: 'images/mentors/bodunrin.jpeg'
+		image: 'images/mentors/musbaudeen fathiu.png'
 	},
 	{
 		name: 'Mr. Hassan Ridwan (Maxam)',
 		role: 'Professional Graphic Designer',
 		bio: 'A professional graphic designer, print manager, creative expert, and colour mix expert with a successful record in the graphic industry.',
 		initials: 'HR',
-		image: 'images/mentors/maxam.jpeg'
+		image: 'images/mentors/maxam..png'
 	}
 ];
 
