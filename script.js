@@ -1,6 +1,5 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const siteNav = document.querySelector('.site-nav');
-const adminAccessTrigger = document.querySelector('#admin-access');
 const adminLoginPanel = document.querySelector('#login-panel');
 const adminDashboard = document.querySelector('#dashboard');
 const recordsBody = document.querySelector('#records-body');
@@ -86,16 +85,6 @@ function showAdminDashboard() {
 	renderAdminTable();
 }
 
-if (adminAccessTrigger) {
-	adminAccessTrigger.addEventListener('click', () => {
-		if (!adminLoginPanel) return;
-		adminLoginPanel.hidden = false;
-		adminLoginPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		const passwordField = document.querySelector('#admin-password');
-		if (passwordField) passwordField.focus();
-	});
-}
-
 if (loginForm) {
 	loginForm.addEventListener('submit', (event) => {
 		event.preventDefault();
@@ -155,6 +144,77 @@ if (slides && slideCurrent && slideCount) {
 	}
 }
 
+const chatbotPanel = document.querySelector('#chatbot-panel');
+const chatbotToggle = document.querySelector('#chatbot-toggle');
+const chatbotTranscript = document.querySelector('#chatbot-transcript');
+const chatbotForm = document.querySelector('#chatbot-form');
+const chatbotInput = document.querySelector('#chatbot-input');
+
+function setChatbotOpen(isOpen) {
+	if (!chatbotPanel || !chatbotToggle) return;
+	chatbotPanel.hidden = !isOpen;
+	chatbotToggle.setAttribute('aria-expanded', String(isOpen));
+	if (isOpen && chatbotInput) chatbotInput.focus();
+}
+
+function addChatbotMessage(message, sender) {
+	if (!chatbotTranscript) return;
+	const paragraph = document.createElement('p');
+	paragraph.className = `chatbot-message chatbot-message--${sender}`;
+	paragraph.textContent = message;
+	chatbotTranscript.append(paragraph);
+	chatbotTranscript.scrollTop = chatbotTranscript.scrollHeight;
+}
+
+function getChatbotReply(question) {
+	const normalizedQuestion = question.toLowerCase();
+	if (/fee|price|cost|duration|start date|when.*start|cohort|schedule/.test(normalizedQuestion)) {
+		return 'Fees, course duration, and cohort start dates are confirmed by the team. Message us on WhatsApp for the latest details.';
+	}
+	if (/register|registration|apply|enroll|enrol|join/.test(normalizedQuestion)) {
+		return 'Choose a course in the registration form, submit your details, then send the prepared message to us on WhatsApp.';
+	}
+	if (/beginner|experience|prerequisite|prior knowledge/.test(normalizedQuestion)) {
+		return 'The courses are designed for beginners and curious learners. You can choose Beginner in the registration form.';
+	}
+	if (/live|online|session|lesson|class format/.test(normalizedQuestion)) {
+		return 'Classes are designed to be live, interactive, and supported by mentors. Ask us on WhatsApp for the current session schedule.';
+	}
+	if (/course|design|frontend|backend|forex|financial|coding/.test(normalizedQuestion)) {
+		return 'Current paths are Graphic Design, Frontend Development, Backend Development, and Forex & Financial Literacy. Ask us which one best fits your goals.';
+	}
+	if (/contact|person|human|whatsapp|team/.test(normalizedQuestion)) {
+		return 'You can message CreateX Tech directly on WhatsApp using the link below.';
+	}
+	return 'I can help with courses, fees and dates, registration, or beginner questions. For anything else, message us on WhatsApp below.';
+}
+
+if (chatbotPanel && chatbotToggle && chatbotTranscript && chatbotForm && chatbotInput) {
+	chatbotToggle.addEventListener('click', () => setChatbotOpen(chatbotPanel.hidden));
+	document.querySelector('#chatbot-close').addEventListener('click', () => {
+		setChatbotOpen(false);
+		chatbotToggle.focus();
+	});
+	chatbotForm.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const question = chatbotInput.value.trim();
+		if (!question) return;
+		addChatbotMessage(question, 'user');
+		addChatbotMessage(getChatbotReply(question), 'bot');
+		chatbotInput.value = '';
+	});
+	document.querySelectorAll('[data-chat-question]').forEach((button) => {
+		button.addEventListener('click', () => {
+			const question = button.dataset.chatQuestion;
+			addChatbotMessage(question, 'user');
+			addChatbotMessage(getChatbotReply(question), 'bot');
+		});
+	});
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && !chatbotPanel.hidden) setChatbotOpen(false);
+	});
+}
+
 const registrationForm = document.querySelector('#registration-form');
 
 if (registrationForm) {
@@ -164,7 +224,7 @@ if (registrationForm) {
 		const fullName = form.elements.fullname.value.trim();
 		const email = form.elements.email.value.trim();
 		const whatsapp = form.elements.whatsapp.value.trim();
-		const address = form.elements.address.value.trim();
+		const location = form.elements.location.value.trim();
 		const course = form.elements.course.value;
 		const experience = form.elements.experience.value;
 		const success = form.querySelector('.form-success');
@@ -174,14 +234,14 @@ if (registrationForm) {
 			fullName,
 			email,
 			whatsapp,
-			address,
+			location,
 			course,
 			experience,
 			registeredAt: new Date().toISOString()
 		});
 		localStorage.setItem('createXRegistrations', JSON.stringify(registrations));
 		const createXTechWhatsApp = '09049425932'.replace(/^0/, '234');
-		const registrationMessage = `New CreateX Tech webinar waitlist registration\n\nFull name: ${fullName}\nEmail: ${email}\nWhatsApp: ${whatsapp}\nHome address: ${address}\nCourse: ${course}\nExperience: ${experience}`;
+		const registrationMessage = `New CreateX Tech webinar waitlist registration\n\nFull name: ${fullName}\nEmail: ${email}\nWhatsApp: ${whatsapp}\nCity / State or Country: ${location || 'Not provided'}\nCourse: ${course}\nExperience: ${experience}`;
 		const whatsappLink = `https://wa.me/${createXTechWhatsApp}?text=${encodeURIComponent(registrationMessage)}`;
 
 		window.open(whatsappLink, '_blank', 'noopener');

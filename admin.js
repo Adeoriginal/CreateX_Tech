@@ -36,7 +36,7 @@ function render() {
 		row.querySelector('.phone').textContent = registration.whatsapp;
 		row.querySelector('.course-tag').textContent = registration.course;
 		row.cells[3].textContent = registration.experience;
-		row.cells[4].textContent = registration.address;
+		row.cells[4].textContent = registration.location || registration.address || '';
 		row.cells[5].textContent = formatDate(registration.registeredAt);
 		row.querySelector('.delete-button').setAttribute('aria-label', `Delete registration for ${registration.fullName}`);
 		row.querySelector('.delete-button').addEventListener('click', () => {
@@ -56,8 +56,8 @@ function render() {
 function exportCsv() {
 	const registrations = getRegistrations();
 	if (!registrations.length) return;
-	const headers = ['Full name', 'Email', 'WhatsApp', 'Address', 'Course', 'Experience', 'Registered at'];
-	const rows = registrations.map((item) => [item.fullName, item.email, item.whatsapp, item.address, item.course, item.experience, item.registeredAt]);
+	const headers = ['Full name', 'Email', 'WhatsApp', 'Location', 'Course', 'Experience', 'Registered at'];
+	const rows = registrations.map((item) => [item.fullName, item.email, item.whatsapp, item.location || item.address || '', item.course, item.experience, item.registeredAt]);
 	const csv = [headers, ...rows].map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(',')).join('\n');
 	const link = document.createElement('a');
 	link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
