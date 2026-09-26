@@ -347,7 +347,7 @@ document.querySelectorAll('.mentor-card').forEach((card) => {
 	const openBiography = () => {
 		mentorDialog.querySelector('.mentor-role').textContent = card.querySelector('.mentor-role').textContent;
 		mentorDialog.querySelector('h2').textContent = card.querySelector('h3').textContent;
-		mentorDialog.querySelector('.mentor-dialog-bio').textContent = card.querySelector('.mentor-details>p:last-child').textContent;
+		mentorDialog.querySelector('.mentor-dialog-bio').textContent = card.querySelector('.mentor-details>p:last-of-type').textContent;
 		mentorDialog.showModal();
 	};
 	card.addEventListener('click', openBiography);
